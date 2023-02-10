@@ -15,6 +15,7 @@
     <WindowChrome.WindowChrome>
         <WindowChrome 
             CornerRadius="8"
+            NonClientFrameEdges="Left,Bottom,Right"
             UseAeroCaptionButtons="False"
             ResizeBorderThickness="4">
             <WindowChrome.CaptionHeight>
