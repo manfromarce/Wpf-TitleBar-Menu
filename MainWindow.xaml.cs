@@ -26,10 +26,6 @@ namespace WpfApp1
         public MainWindow()
         {
             InitializeComponent();
-            //if(this.WindowState == WindowState.Maximized)
-            //{
-            //    this.BorderThickness = new Thickness(6);
-            //}
         }
 
         private void OnMaximizeRestoreButtonClick(object sender, RoutedEventArgs e)
@@ -52,18 +48,6 @@ namespace WpfApp1
         {
             SystemCommands.MinimizeWindow(this);
         }
-
-        //private void window_StateChanged(object sender, EventArgs e)
-        //{
-        //    if (this.WindowState == WindowState.Maximized)
-        //    {                
-        //        this.BorderThickness = new Thickness(6);
-        //    }
-        //    else if (this.WindowState == WindowState.Normal)
-        //    {
-        //        this.BorderThickness = new Thickness(0);
-        //    }
-        //}
 
         private void QuitMenuItem_Click(object sender, RoutedEventArgs e)
         {

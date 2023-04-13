@@ -17,7 +17,7 @@
             CornerRadius="8"
             NonClientFrameEdges="Left,Bottom,Right"
             UseAeroCaptionButtons="False"
-            ResizeBorderThickness="4">
+            ResizeBorderThickness="{x:Static SystemParameters.WindowResizeBorderThickness}">
             <WindowChrome.CaptionHeight>
                 <MultiBinding Converter="{StaticResource captionHeightConverter}">
                     <Binding ElementName="titlebar" Path="ActualHeight"/>
@@ -26,12 +26,14 @@
             </WindowChrome.CaptionHeight>
         </WindowChrome>
     </WindowChrome.WindowChrome>
+
     <Grid x:Name="rootGrid">
         <Grid.RowDefinitions>
-            <RowDefinition Height="30"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0" x:Name="titlebar" Background="{StaticResource TitleBarBackground}">
+        <Grid Grid.Row="0" x:Name="titlebar" Background="{StaticResource TitleBarBackground}" 
+              Height="{StaticResource TitleBarHeight}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
@@ -45,7 +47,7 @@
             <!-- remove or set Visibility="Collapsed" if you don't want to display an icon-->
             <Image Source="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window},Path=Icon}"
                    Grid.Column="0" IsHitTestVisible="False" HorizontalAlignment="Center" VerticalAlignment="Center"
-                   Width="24" Height="24" Margin="3,0,0,0"/>
+                   Width="24" Height="24" Margin="5,0,0,0"/>
             
             <Menu WindowChrome.IsHitTestVisibleInChrome="True" Background="Transparent" VerticalAlignment="Center"
                   Grid.Column="1">
@@ -83,55 +85,42 @@
                        Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window},Path=Title}"/>
 
             <!-- remove or set Visibility="Collapsed" if you don't want a custom button-->
-            <Button
-		Grid.Column="3"		
-		Style="{StaticResource TitleBarButtonStyle}">
-                <Path
-			Width="18"
-			Height="18" Stretch="Uniform" 
-			Data="M 51.22 21 h -5.052 c -0.812 0 -1.481 -0.447 -1.792 -1.197 s -0.153 -1.54 0.42 -2.114 l 3.572 -3.571 c 0.525 -0.525 0.814 -1.224 0.814 -1.966 c 0 -0.743 -0.289 -1.441 -0.814 -1.967 l -4.553 -4.553 c -1.05 -1.05 -2.881 -1.052 -3.933 0 l -3.571 3.571 c -0.574 0.573 -1.366 0.733 -2.114 0.421 C 33.447 9.313 33 8.644 33 7.832 V 2.78 C 33 1.247 31.753 0 30.22 0 H 23.78 C 22.247 0 21 1.247 21 2.78 v 5.052 c 0 0.812 -0.447 1.481 -1.197 1.792 c -0.748 0.313 -1.54 0.152 -2.114 -0.421 l -3.571 -3.571 c -1.052 -1.052 -2.883 -1.05 -3.933 0 l -4.553 4.553 c -0.525 0.525 -0.814 1.224 -0.814 1.967 c 0 0.742 0.289 1.44 0.814 1.966 l 3.572 3.571 c 0.573 0.574 0.73 1.364 0.42 2.114 S 8.644 21 7.832 21 H 2.78 C 1.247 21 0 22.247 0 23.78 v 6.439 C 0 31.753 1.247 33 2.78 33 h 5.052 c 0.812 0 1.481 0.447 1.792 1.197 s 0.153 1.54 -0.42 2.114 l -3.572 3.571 c -0.525 0.525 -0.814 1.224 -0.814 1.966 c 0 0.743 0.289 1.441 0.814 1.967 l 4.553 4.553 c 1.051 1.051 2.881 1.053 3.933 0 l 3.571 -3.572 c 0.574 -0.573 1.363 -0.731 2.114 -0.42 c 0.75 0.311 1.197 0.98 1.197 1.792 v 5.052 c 0 1.533 1.247 2.78 2.78 2.78 h 6.439 c 1.533 0 2.78 -1.247 2.78 -2.78 v -5.052 c 0 -0.812 0.447 -1.481 1.197 -1.792 c 0.751 -0.312 1.54 -0.153 2.114 0.42 l 3.571 3.572 c 1.052 1.052 2.883 1.05 3.933 0 l 4.553 -4.553 c 0.525 -0.525 0.814 -1.224 0.814 -1.967 c 0 -0.742 -0.289 -1.44 -0.814 -1.966 l -3.572 -3.571 c -0.573 -0.574 -0.73 -1.364 -0.42 -2.114 S 45.356 33 46.168 33 h 5.052 c 1.533 0 2.78 -1.247 2.78 -2.78 V 23.78 C 54 22.247 52.753 21 51.22 21 z z M 27 18 c -4.963 0 -9 4.037 -9 9 s 4.037 9 9 9 s 9 -4.037 9 -9 S 31.963 18 27 18 z"
-			Stroke="{Binding Path=Foreground,
-							 RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
-			StrokeThickness="1" />
+            <Button Grid.Column="3"		
+		            Style="{StaticResource TitleBarButtonStyle}">
+                <Path Width="16" Height="16"
+                      Stretch="Uniform" 
+			          Data="M 51.22 21 h -5.052 c -0.812 0 -1.481 -0.447 -1.792 -1.197 s -0.153 -1.54 0.42 -2.114 l 3.572 -3.571 c 0.525 -0.525 0.814 -1.224 0.814 -1.966 c 0 -0.743 -0.289 -1.441 -0.814 -1.967 l -4.553 -4.553 c -1.05 -1.05 -2.881 -1.052 -3.933 0 l -3.571 3.571 c -0.574 0.573 -1.366 0.733 -2.114 0.421 C 33.447 9.313 33 8.644 33 7.832 V 2.78 C 33 1.247 31.753 0 30.22 0 H 23.78 C 22.247 0 21 1.247 21 2.78 v 5.052 c 0 0.812 -0.447 1.481 -1.197 1.792 c -0.748 0.313 -1.54 0.152 -2.114 -0.421 l -3.571 -3.571 c -1.052 -1.052 -2.883 -1.05 -3.933 0 l -4.553 4.553 c -0.525 0.525 -0.814 1.224 -0.814 1.967 c 0 0.742 0.289 1.44 0.814 1.966 l 3.572 3.571 c 0.573 0.574 0.73 1.364 0.42 2.114 S 8.644 21 7.832 21 H 2.78 C 1.247 21 0 22.247 0 23.78 v 6.439 C 0 31.753 1.247 33 2.78 33 h 5.052 c 0.812 0 1.481 0.447 1.792 1.197 s 0.153 1.54 -0.42 2.114 l -3.572 3.571 c -0.525 0.525 -0.814 1.224 -0.814 1.966 c 0 0.743 0.289 1.441 0.814 1.967 l 4.553 4.553 c 1.051 1.051 2.881 1.053 3.933 0 l 3.571 -3.572 c 0.574 -0.573 1.363 -0.731 2.114 -0.42 c 0.75 0.311 1.197 0.98 1.197 1.792 v 5.052 c 0 1.533 1.247 2.78 2.78 2.78 h 6.439 c 1.533 0 2.78 -1.247 2.78 -2.78 v -5.052 c 0 -0.812 0.447 -1.481 1.197 -1.792 c 0.751 -0.312 1.54 -0.153 2.114 0.42 l 3.571 3.572 c 1.052 1.052 2.883 1.05 3.933 0 l 4.553 -4.553 c 0.525 -0.525 0.814 -1.224 0.814 -1.967 c 0 -0.742 -0.289 -1.44 -0.814 -1.966 l -3.572 -3.571 c -0.573 -0.574 -0.73 -1.364 -0.42 -2.114 S 45.356 33 46.168 33 h 5.052 c 1.533 0 2.78 -1.247 2.78 -2.78 V 23.78 C 54 22.247 52.753 21 51.22 21 z z M 27 18 c -4.963 0 -9 4.037 -9 9 s 4.037 9 9 9 s 9 -4.037 9 -9 S 31.963 18 27 18 z"
+			          Stroke="{Binding Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
+			          StrokeThickness="1" />
             </Button>
 
             <!-- standard system buttons (minimize, maximize/restore, close) -->
-            <Button
-		Grid.Column="4"
-		Click="OnMinimizeButtonClick"		
-		Style="{StaticResource TitleBarButtonStyle}">
-                <Path
-			Width="36"
-			Height="32"
-			Data="M 13,15 H 23"
-			Stroke="{Binding Path=Foreground,
-							 RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
-			StrokeThickness="1" />
+            <Button Grid.Column="4"
+		            Click="OnMinimizeButtonClick"		
+		            Style="{StaticResource TitleBarButtonStyle}">
+                <Path Width="36" Height="32"
+			          Data="M 13,15 H 23"
+			          Stroke="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
+			          StrokeThickness="1" />
             </Button>
-            <Button
-		Name="maximizeButton"
-		Grid.Column="5"
-		Click="OnMaximizeRestoreButtonClick"
-		Style="{StaticResource TitleBarButtonStyle}">
-                <Path
-			Width="36"
-			Height="32"
-			Data="{Binding ElementName=window, Path=WindowState, Converter={StaticResource windowstateToPathConverter}}"
-			Stroke="{Binding Path=Foreground,
-							 RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
-			StrokeThickness="1" />
+
+            <Button x:Name="maximizeRestoreButton"
+		            Grid.Column="5"
+		            Click="OnMaximizeRestoreButtonClick"
+		            Style="{StaticResource TitleBarButtonStyle}">
+                <Path Width="36" Height="32"
+			          Data="{Binding ElementName=window, Path=WindowState, Converter={StaticResource windowstateToPathConverter}}"
+			          Stroke="{Binding Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
+			          StrokeThickness="1" />
             </Button>
-            <Button
-		Grid.Column="6"
-		Click="OnCloseButtonClick"
-		Style="{StaticResource TitleBarCloseButtonStyle}">
-                <Path
-			Width="36"
-			Height="32"
-			Data="M 13,11 22,20 M 13,20 22,11"
-			Stroke="{Binding Path=Foreground,
-							 RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
-			StrokeThickness="1" />
+
+            <Button Grid.Column="6"
+		            Click="OnCloseButtonClick"
+		            Style="{StaticResource TitleBarCloseButtonStyle}">
+                <Path Width="36" Height="32"
+			          Data="M 13,11 22,20 M 13,20 22,11"
+			          Stroke="{Binding Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
+			          StrokeThickness="1" />
             </Button>
         </Grid>
         
