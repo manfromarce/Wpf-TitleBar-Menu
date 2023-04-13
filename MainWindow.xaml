@@ -44,9 +44,11 @@
             </Grid.ColumnDefinitions>
 
             <!-- remove or set Visibility="Collapsed" if you don't want to display an icon-->
-            <Image Source="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window},Path=Icon}"
+            <Image x:Name="icon" 
+                   Source="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window},Path=Icon}"
                    Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center"
-                   Width="24" Height="24" Margin="5,0,0,0"/>
+                   Width="24" Height="24" Margin="5,0,0,0" MouseDown="Icon_MouseDown"
+                   WindowChrome.IsHitTestVisibleInChrome="True" />
 
             <DockPanel Grid.Column="1" HorizontalAlignment="Stretch">
                 <Menu DockPanel.Dock="Left" WindowChrome.IsHitTestVisibleInChrome="True" 

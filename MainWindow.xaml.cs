@@ -66,5 +66,24 @@ namespace WpfApp1
         {
             maximizeRestoreButton.ToolTip = WindowState == WindowState.Normal ? "Maximize" : "Restore";
         }
+
+        private void Icon_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ClickCount == 2 && e.ChangedButton == MouseButton.Left)
+            {
+                this.Close();
+            }
+            else if (e.ChangedButton == MouseButton.Left || e.ChangedButton == MouseButton.Right)
+            {
+                var pt = icon.TransformToAncestor(this).Transform(new Point(0, 0));
+                pt.Y += icon.Height;
+                if (this.WindowState == WindowState.Normal)
+                {
+                    pt.X += this.Left;
+                    pt.Y += this.Top;
+                }
+                SystemCommands.ShowSystemMenu(this, pt);
+            }
+        }
     }
 }
