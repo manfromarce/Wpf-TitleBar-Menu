@@ -8,7 +8,7 @@
         Title="MainWindow"
         WindowStyle="SingleBorderWindow"
         Height="450" Width="800"
-        MinWidth="450" MinHeight="150"
+        MinWidth="300" MinHeight="150"
         ResizeMode="CanResize"
         BorderThickness="{Binding RelativeSource={RelativeSource Mode=Self}, Path=WindowState, Converter={StaticResource windowstateToThicknessConverter}}"
         x:Name="window" Icon="/icon.png">
@@ -33,9 +33,8 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0" x:Name="titlebar" Background="{StaticResource TitleBarBackground}" 
-              Height="{StaticResource TitleBarHeight}">
+              MinHeight="{StaticResource TitleBarHeight}">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*" MinWidth="40"/>
                 <ColumnDefinition Width="Auto" />
@@ -46,46 +45,58 @@
 
             <!-- remove or set Visibility="Collapsed" if you don't want to display an icon-->
             <Image Source="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window},Path=Icon}"
-                   Grid.Column="0" IsHitTestVisible="False" HorizontalAlignment="Center" VerticalAlignment="Center"
+                   Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center"
                    Width="24" Height="24" Margin="5,0,0,0"/>
-            
-            <Menu WindowChrome.IsHitTestVisibleInChrome="True" Background="Transparent" VerticalAlignment="Center"
-                  Grid.Column="1">
-                <MenuItem Header="File">
-                    <MenuItem Header="New" InputGestureText="Ctrl+N"/>
-                    <MenuItem Header="Open..." InputGestureText="Ctrl+O"/>
-                    <Separator/>
-                    <MenuItem Header="Save" InputGestureText="Ctrl+S"/>
-                    <MenuItem Header="Save As..." InputGestureText="Ctrl+Shift+S"/>
-                    <MenuItem Header="Print..." InputGestureText="Ctrl+P"/>
-                    <Separator/>
-                    <MenuItem Header="Quit" Click="QuitMenuItem_Click" InputGestureText="Alt+F4"/>
-                </MenuItem>
-                <MenuItem Header="Edit">
-                    <MenuItem Header="Undo" InputGestureText="Ctrl+Z"/>
-                    <MenuItem Header="Redo" InputGestureText="Ctrl+Y"/>
-                    <Separator/>
-                    <MenuItem Header="Cut" InputGestureText="Ctrl+X"/>
-                    <MenuItem Header="Copy" InputGestureText="Ctrl+C"/>
-                    <MenuItem Header="Paste" InputGestureText="Ctrl+V"/>
-                    <MenuItem Header="Select All" InputGestureText="Ctrl+A"/>
-                </MenuItem>
-                <MenuItem Header="Window">
-                    <MenuItem Header="New Window" InputGestureText="Ctrl+Shift+N" Click="NewWindowMenuItem_Click"/>
-                </MenuItem>
-                <MenuItem Header="Help">
-                    <MenuItem Header="About..."/>
-                </MenuItem>                
-            </Menu>
 
-            <!-- remove or set Visibility="Collapsed" if you don't want to display the window title-->
-            <TextBlock Grid.Column="2" IsHitTestVisible="False"
+            <DockPanel Grid.Column="1" HorizontalAlignment="Stretch">
+                <Menu DockPanel.Dock="Left" WindowChrome.IsHitTestVisibleInChrome="True" 
+                    Background="Transparent" VerticalAlignment="Center">
+                    <MenuItem Header="File">
+                        <MenuItem Header="New" InputGestureText="Ctrl+N"/>
+                        <MenuItem Header="Open..." InputGestureText="Ctrl+O"/>
+                        <Separator/>
+                        <MenuItem Header="Save" InputGestureText="Ctrl+S"/>
+                        <MenuItem Header="Save As..." InputGestureText="Ctrl+Shift+S"/>
+                        <MenuItem Header="Print..." InputGestureText="Ctrl+P"/>
+                        <Separator/>
+                        <MenuItem Header="Quit" Click="QuitMenuItem_Click" InputGestureText="Alt+F4"/>
+                    </MenuItem>
+                    <MenuItem Header="Edit">
+                        <MenuItem Header="Undo" InputGestureText="Ctrl+Z"/>
+                        <MenuItem Header="Redo" InputGestureText="Ctrl+Y"/>
+                        <Separator/>
+                        <MenuItem Header="Cut" InputGestureText="Ctrl+X"/>
+                        <MenuItem Header="Copy" InputGestureText="Ctrl+C"/>
+                        <MenuItem Header="Paste" InputGestureText="Ctrl+V"/>
+                        <MenuItem Header="Select All" InputGestureText="Ctrl+A"/>
+                    </MenuItem>
+                    <MenuItem Header="View">
+                        <MenuItem Header="Fullscreen" InputGestureText="F11"/>
+                    </MenuItem>
+                    <MenuItem Header="Tools">
+                        <MenuItem Header="Settings..." InputGestureText="Ctrl+,"/>
+                    </MenuItem>
+                    <MenuItem Header="Window">
+                        <MenuItem Header="New Window" InputGestureText="Ctrl+Shift+N" Click="NewWindowMenuItem_Click"/>
+                    </MenuItem>
+                    <MenuItem Header="Help">
+                        <MenuItem Header="About..."/>
+                    </MenuItem>
+                </Menu>
+
+                <!-- remove or set Visibility="Collapsed" if you don't want to display the window title-->
+                <TextBlock HorizontalAlignment="Center"
                        VerticalAlignment="Center"
-                       HorizontalAlignment="Center"
+                       TextWrapping="NoWrap"
+                       TextTrimming="CharacterEllipsis"
+                       Margin="10,0,10,0"
                        Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window},Path=Title}"/>
 
+            </DockPanel>
+
             <!-- remove or set Visibility="Collapsed" if you don't want a custom button-->
-            <Button Grid.Column="3"		
+            <Button Grid.Column="2"
+                    ToolTip="Settings"
 		            Style="{StaticResource TitleBarButtonStyle}">
                 <Path Width="16" Height="16"
                       Stretch="Uniform" 
@@ -95,7 +106,8 @@
             </Button>
 
             <!-- standard system buttons (minimize, maximize/restore, close) -->
-            <Button Grid.Column="4"
+            <Button Grid.Column="3"
+                    ToolTip="Minimize"
 		            Click="OnMinimizeButtonClick"		
 		            Style="{StaticResource TitleBarButtonStyle}">
                 <Path Width="36" Height="32"
@@ -105,7 +117,9 @@
             </Button>
 
             <Button x:Name="maximizeRestoreButton"
-		            Grid.Column="5"
+		            Grid.Column="4"
+                    ToolTip="Maximize"
+                    ToolTipOpening="maximizeRestoreButton_ToolTipOpening"
 		            Click="OnMaximizeRestoreButtonClick"
 		            Style="{StaticResource TitleBarButtonStyle}">
                 <Path Width="36" Height="32"
@@ -114,7 +128,8 @@
 			          StrokeThickness="1" />
             </Button>
 
-            <Button Grid.Column="6"
+            <Button Grid.Column="5"
+                    ToolTip="Close"
 		            Click="OnCloseButtonClick"
 		            Style="{StaticResource TitleBarCloseButtonStyle}">
                 <Path Width="36" Height="32"

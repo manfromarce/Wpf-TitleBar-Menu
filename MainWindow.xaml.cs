@@ -61,5 +61,10 @@ namespace WpfApp1
             w.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             w.Show();
         }
+
+        private void maximizeRestoreButton_ToolTipOpening(object sender, ToolTipEventArgs e)
+        {
+            maximizeRestoreButton.ToolTip = WindowState == WindowState.Normal ? "Maximize" : "Restore";
+        }
     }
 }
