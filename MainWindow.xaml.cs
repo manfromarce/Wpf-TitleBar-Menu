@@ -25,23 +25,67 @@ namespace WpfApp1
     {
         public MainWindow()
         {
-            InitializeComponent();
+            InitializeComponent();          
+            SourceInitialized += OnSourceInitialized;
         }
 
-        private void OnMaximizeRestoreButtonClick(object sender, RoutedEventArgs e)
+        private void OnSourceInitialized(object? sender, EventArgs e)
         {
-            if(this.WindowState == WindowState.Maximized)
+            var source = (HwndSource)PresentationSource.FromVisual(this);
+            source.AddHook(WndProc);
+        }
+
+        private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+        {
+            switch (msg)
             {
-                SystemCommands.RestoreWindow(this);
-            } else
-            {
-                SystemCommands.MaximizeWindow(this);
+                case NativeHelpers.WM_NCHITTEST:
+                    if (NativeHelpers.IsSnapLayoutEnabled())
+                    {
+                        // Return HTMAXBUTTON when the mouse is over the maximize/restore button
+                        var point = PointFromScreen(new Point(lParam.ToInt32() & 0xFFFF, lParam.ToInt32() >> 16));
+                        if (WpfHelpers.GetElementBoundsRelativeToWindow(maximizeRestoreButton, this).Contains(point))
+                        {
+                            handled = true;
+                            // Apply hover button style
+                            maximizeRestoreButton.Background = (Brush)App.Current.Resources["TitleBarButtonHoverBackground"];
+                            maximizeRestoreButton.Foreground = (Brush)App.Current.Resources["TitleBarButtonHoverForeground"];
+                            return new IntPtr(NativeHelpers.HTMAXBUTTON);
+                        } else
+                        {
+                            // Apply default button style (cursor is not on the button)
+                            maximizeRestoreButton.Background = (Brush)App.Current.Resources["TitleBarButtonBackground"];
+                            maximizeRestoreButton.Foreground = (Brush)App.Current.Resources["TitleBarButtonForeground"];
+                        }
+                    }
+                    break;
+                case NativeHelpers.WM_NCLBUTTONDOWN:
+                    if (NativeHelpers.IsSnapLayoutEnabled())
+                    {
+                        if (wParam.ToInt32() == NativeHelpers.HTMAXBUTTON)
+                        {
+                            handled = true;
+                            // Apply pressed button style
+                            maximizeRestoreButton.Background = (Brush)App.Current.Resources["TitleBarButtonPressedBackground"];
+                            maximizeRestoreButton.Foreground = (Brush)App.Current.Resources["TitleBarButtonPressedForeground"];
+                        }
+                    }
+                    break;
+                case NativeHelpers.WM_NCLBUTTONUP:
+                    if (NativeHelpers.IsSnapLayoutEnabled())
+                    {
+                        if (wParam.ToInt32() == NativeHelpers.HTMAXBUTTON)
+                        { 
+                            // Apply default button style
+                            maximizeRestoreButton.Background = (Brush)App.Current.Resources["TitleBarButtonBackground"];
+                            maximizeRestoreButton.Foreground = (Brush)App.Current.Resources["TitleBarButtonForeground"];
+                            // Maximize or restore the window
+                            ToggleWindowState();
+                        }
+                    }
+                    break;
             }
-        }
-
-        private void OnCloseButtonClick(object sender, RoutedEventArgs e)
-        {
-            SystemCommands.CloseWindow(this);
+            return IntPtr.Zero;
         }
 
         private void OnMinimizeButtonClick(object sender, RoutedEventArgs e)
@@ -49,9 +93,19 @@ namespace WpfApp1
             SystemCommands.MinimizeWindow(this);
         }
 
-        private void QuitMenuItem_Click(object sender, RoutedEventArgs e)
+        private void OnMaximizeRestoreButtonClick(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            ToggleWindowState();
+        }        
+
+        private void maximizeRestoreButton_ToolTipOpening(object sender, ToolTipEventArgs e)
+        {
+            maximizeRestoreButton.ToolTip = WindowState == WindowState.Normal ? "Maximize" : "Restore";
+        }
+
+        private void OnCloseButtonClick(object sender, RoutedEventArgs e)
+        {
+            SystemCommands.CloseWindow(this);
         }
 
         private void NewWindowMenuItem_Click(object sender, RoutedEventArgs e)
@@ -62,28 +116,46 @@ namespace WpfApp1
             w.Show();
         }
 
-        private void maximizeRestoreButton_ToolTipOpening(object sender, ToolTipEventArgs e)
+        private void QuitMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            maximizeRestoreButton.ToolTip = WindowState == WindowState.Normal ? "Maximize" : "Restore";
+            this.Close();
         }
 
         private void Icon_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ClickCount == 2 && e.ChangedButton == MouseButton.Left)
             {
-                this.Close();
+                Close();
             }
             else if (e.ChangedButton == MouseButton.Left || e.ChangedButton == MouseButton.Right)
             {
-                var pt = icon.TransformToAncestor(this).Transform(new Point(0, 0));
-                pt.Y += icon.Height;
-                if (this.WindowState == WindowState.Normal)
-                {
-                    pt.X += this.Left;
-                    pt.Y += this.Top;
-                }
-                SystemCommands.ShowSystemMenu(this, pt);
+                ShowSystemMenu(e.GetPosition(this));
             }
+        }
+
+        public void ToggleWindowState()
+        {
+            if (WindowState == WindowState.Maximized)
+            {
+                SystemCommands.RestoreWindow(this);
+            }
+            else
+            {
+                SystemCommands.MaximizeWindow(this);
+            }
+        }
+
+        public void ShowSystemMenu(Point point)
+        {
+            // Increment coordinates to allow double-click
+            ++point.X;
+            ++point.Y;
+            if (WindowState == WindowState.Normal)
+            {
+                point.X += Left;
+                point.Y += Top;
+            }
+            SystemCommands.ShowSystemMenu(this, point);
         }
     }
 }

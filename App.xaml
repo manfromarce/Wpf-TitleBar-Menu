@@ -1,34 +1,36 @@
-﻿<Application x:Class="WpfApp1.App"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:sys="clr-namespace:System;assembly=mscorlib"
-             xmlns:local="clr-namespace:WpfApp1"
-             StartupUri="MainWindow.xaml">
+﻿<Application
+    x:Class="WpfApp1.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:WpfApp1"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    StartupUri="MainWindow.xaml">
     <Application.Resources>
-        <local:WindowStateToPathConverter x:Key="windowstateToPathConverter"/>
-        <local:WindowStateToThicknessConverter x:Key="windowstateToThicknessConverter"/>
-        <local:CaptionHeightConverter x:Key="captionHeightConverter"/>
+        <local:WindowStateToPathConverter x:Key="windowstateToPathConverter" />
+        <local:WindowStateToThicknessConverter x:Key="windowstateToThicknessConverter" />
+        <local:CaptionHeightConverter x:Key="captionHeightConverter" />
 
-        <SolidColorBrush x:Key="TitleBarBackground" Color="#F3F3F3"/>
+        <SolidColorBrush x:Key="TitleBarBackground" Color="#F3F3F3" />
         <sys:Double x:Key="TitleBarHeight">30</sys:Double>
         <sys:Double x:Key="TitleBarButtonWidth">36</sys:Double>
         <sys:Double x:Key="TitleBarButtonHeight">30</sys:Double>
 
-        <SolidColorBrush x:Key="TitleBarButtonBackground" Color="Transparent"/>
-        <SolidColorBrush x:Key="TitleBarButtonForeground" Color="Black"/>
-        <SolidColorBrush x:Key="TitleBarButtonHoverBackground" Color="#E9E9E9"/>
-        <SolidColorBrush x:Key="TitleBarButtonHoverForeground" Color="Black"/>
-        <SolidColorBrush x:Key="TitleBarButtonPressedBackground" Color="#EDEDED"/>
-        <SolidColorBrush x:Key="TitleBarButtonPressedForeground" Color="Black"/>
+        <SolidColorBrush x:Key="TitleBarButtonBackground" Color="Transparent" />
+        <SolidColorBrush x:Key="TitleBarButtonForeground" Color="Black" />
+        <SolidColorBrush x:Key="TitleBarButtonHoverBackground" Color="#E9E9E9" />
+        <SolidColorBrush x:Key="TitleBarButtonHoverForeground" Color="Black" />
+        <SolidColorBrush x:Key="TitleBarButtonPressedBackground" Color="#EDEDED" />
+        <SolidColorBrush x:Key="TitleBarButtonPressedForeground" Color="Black" />
 
-        <SolidColorBrush x:Key="TitleBarCloseButtonBackground" Color="Transparent"/>
-        <SolidColorBrush x:Key="TitleBarCloseButtonForeground" Color="Black"/>
-        <SolidColorBrush x:Key="TitleBarCloseButtonHoverBackground" Color="#C42B1C"/>
-        <SolidColorBrush x:Key="TitleBarCloseButtonHoverForeground" Color="White"/>
-        <SolidColorBrush x:Key="TitleBarCloseButtonPressedBackground" Color="#C84031"/>
-        <SolidColorBrush x:Key="TitleBarCloseButtonPressedForeground" Color="White"/>
+        <SolidColorBrush x:Key="TitleBarCloseButtonBackground" Color="Transparent" />
+        <SolidColorBrush x:Key="TitleBarCloseButtonForeground" Color="Black" />
+        <SolidColorBrush x:Key="TitleBarCloseButtonHoverBackground" Color="#C42B1C" />
+        <SolidColorBrush x:Key="TitleBarCloseButtonHoverForeground" Color="White" />
+        <SolidColorBrush x:Key="TitleBarCloseButtonPressedBackground" Color="#C84031" />
+        <SolidColorBrush x:Key="TitleBarCloseButtonPressedForeground" Color="White" />
 
         <Style x:Key="TitleBarButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="{StaticResource TitleBarButtonBackground}" />
             <Setter Property="Foreground" Value="{StaticResource TitleBarButtonForeground}" />
             <Setter Property="Padding" Value="0" />
             <Setter Property="Margin" Value="0" />
@@ -40,11 +42,13 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
-                        <Border x:Name="border"
-                                Background="{StaticResource TitleBarButtonBackground}"
-                                BorderThickness="0"
-                                SnapsToDevicePixels="True">
-                            <ContentPresenter x:Name="contentPresenter"
+                        <Border
+                            x:Name="border"
+                            Background="{TemplateBinding Background}"
+                            BorderThickness="0"
+                            SnapsToDevicePixels="True">
+                            <ContentPresenter
+                                x:Name="contentPresenter"
                                 Margin="0"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
@@ -66,16 +70,22 @@
             </Setter>
         </Style>
 
-        <Style x:Key="TitleBarCloseButtonStyle" BasedOn="{StaticResource TitleBarButtonStyle}" TargetType="Button">
+        <Style
+            x:Key="TitleBarCloseButtonStyle"
+            BasedOn="{StaticResource TitleBarButtonStyle}"
+            TargetType="Button">
+            <Setter Property="Background" Value="{StaticResource TitleBarCloseButtonBackground}" />
             <Setter Property="Foreground" Value="{StaticResource TitleBarCloseButtonForeground}" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
-                        <Border x:Name="border"
-                                Background="{StaticResource TitleBarCloseButtonBackground}"
-                                BorderThickness="0"
-                                SnapsToDevicePixels="True">
-                            <ContentPresenter x:Name="contentPresenter"
+                        <Border
+                            x:Name="border"
+                            Background="{TemplateBinding Background}"
+                            BorderThickness="0"
+                            SnapsToDevicePixels="True">
+                            <ContentPresenter
+                                x:Name="contentPresenter"
                                 Margin="0"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
@@ -96,6 +106,6 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        
+
     </Application.Resources>
 </Application>
