@@ -8,10 +8,11 @@ Windows 11 snap layouts are now also supported when hovering on the Maximize but
 
 #### How to use:
 - Clone this repo or [download](https://github.com/manfromarce/Wpf-TitleBar-Menu/archive/refs/heads/main.zip) the source code as ZIP
-- Tweak the code to suit your needs. Most colors are defined in App.xaml, while the title bar can be customized in MainWindow
+- Tweak the code to suit your needs. Most colors are defined in App.xaml, while the title bar layout can be customized in MainWindow
 - Just remember to set `WindowChrome.IsHitTestVisible="True"` on any custom control added to the title bar, and don't change the WindowChrome or native code unless you know what you're doing
 
 #### Screenshot
-![immagine](https://user-images.githubusercontent.com/45036600/198058879-33227451-6459-4591-9ca4-87113ce9d2ef.png)
+![image](https://github.com/manfromarce/Wpf-TitleBar-Menu/assets/45036600/245562ea-d7de-4b31-97e2-3d5dfe52f89e)
+
 
 
