@@ -1,0 +1,247 @@
+<Window
+    x:Class="AvaloniaApplication1.MainWindow"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ic="using:FluentIcons.Avalonia"
+    xmlns:local="using:AvaloniaApplication1"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Name="window"
+    Title="AvaloniaApplication1"
+    MinWidth="330"
+    MinHeight="300"
+    Padding="6"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    ExtendClientAreaTitleBarHeightHint="{OnPlatform Default=-1,
+                                                    Windows=38}"
+    ExtendClientAreaToDecorationsHint="{OnPlatform Default=False,
+                                                   Windows=True}"
+    mc:Ignorable="d">
+    <!--  Padding=6 is a workaround for the content getting slightly off the window when the window is maximized and ExtendClientAreaToDecorationsHint=True  -->
+
+    <NativeMenu.Menu>
+        <NativeMenu>
+            <NativeMenuItem Header="File">
+                <NativeMenuItem.Menu>
+                    <NativeMenu>
+                        <!--
+                            The standard Windows/Linux menu bar is populated from Native menu items.
+                            This avoids duplication, but we still need to differentiate keyboard shortcuts and
+                            possibly some special menu items on MacOS.
+                            {OnPlatform} can be used for this purpose.
+                        -->
+                        <!--  Note: keyboard shortcuts are not actually implemented, you need to use Command  -->
+                        <NativeMenuItem Gesture="{OnPlatform Ctrl+N, macOS=⌘+N}" Header="New" />
+                        <NativeMenuItem Gesture="{OnPlatform Ctrl+O, macOS=⌘+O}" Header="Open" />
+                        <NativeMenuItemSeparator />
+                        <NativeMenuItem Gesture="{OnPlatform Ctrl+S, macOS=⌘+S}" Header="Save" />
+                        <NativeMenuItem Gesture="{OnPlatform Ctrl+Shift+S, macOS=⌘+Shift+S}" Header="Save As" />
+                        <NativeMenuItemSeparator />
+                        <NativeMenuItem
+                            Click="QuitMenuItem_Click"
+                            Gesture="{OnPlatform Alt+F4,
+                                                 macOS=⌘+Q}"
+                            Header="{OnPlatform Exit,
+                                                macOS='Quit AvaloniaApp'}" />
+                    </NativeMenu>
+                </NativeMenuItem.Menu>
+            </NativeMenuItem>
+            <NativeMenuItem Header="Edit">
+                <NativeMenuItem.Menu>
+                    <NativeMenu>
+                        <NativeMenuItem Gesture="{OnPlatform Ctrl+Z, macOS=⌘+Z}" Header="Undo" />
+                        <NativeMenuItem Gesture="{OnPlatform Ctrl+Y, macOS=⌘+Y}" Header="Redo" />
+                        <NativeMenuItemSeparator />
+                        <NativeMenuItem Gesture="{OnPlatform Ctrl+X, macOS=⌘+X}" Header="Cut" />
+                        <NativeMenuItem Gesture="{OnPlatform Ctrl+C, macOS=⌘+C}" Header="Copy" />
+                        <NativeMenuItem Gesture="{OnPlatform Ctrl+V, macOS=⌘+V}" Header="Paste" />
+                        <NativeMenuItemSeparator />
+                        <NativeMenuItem Gesture="{OnPlatform Ctrl+F, macOS=⌘+F}" Header="Find" />
+                        <NativeMenuItem Gesture="{OnPlatform Ctrl+A, macOS=⌘+A}" Header="Select All" />
+                    </NativeMenu>
+                </NativeMenuItem.Menu>
+            </NativeMenuItem>
+            <NativeMenuItem Header="Insert" />
+            <NativeMenuItem Header="Format" />
+            <NativeMenuItem Header="View">
+                <NativeMenuItem.Menu>
+                    <NativeMenu>
+                        <NativeMenuItem Header="Zoom">
+                            <NativeMenuItem.Menu>
+                                <NativeMenu>
+                                    <NativeMenuItem Gesture="{OnPlatform Ctrl++, macOS=⌘++}" Header="Zoom In" />
+                                    <NativeMenuItem Gesture="{OnPlatform Ctrl+-, macOS=⌘+-}" Header="Zoom Out" />
+                                    <NativeMenuItem Gesture="{OnPlatform Ctrl+D0, macOS=⌘+D0}" Header="100%" />
+                                </NativeMenu>
+                            </NativeMenuItem.Menu>
+                        </NativeMenuItem>
+                        <NativeMenuItem
+                            Click="FullScreen_Click"
+                            Gesture="F11"
+                            Header="Full Screen" />
+                        <NativeMenuItemSeparator />
+                        <NativeMenuItem
+                            Click="SystemTheme_Click"
+                            Header="System theme"
+                            ToggleType="Radio" />
+                        <NativeMenuItem
+                            Click="LightTheme_Click"
+                            Header="Light theme"
+                            ToggleType="Radio" />
+                        <NativeMenuItem
+                            Click="DarkTheme_Click"
+                            Header="Dark theme"
+                            ToggleType="Radio" />
+                        <NativeMenuItemSeparator />
+                        <NativeMenuItem
+                            Header="Status bar"
+                            IsChecked="{Binding ElementName=statusBar, Path=IsVisible, Mode=TwoWay}"
+                            ToggleType="CheckBox" />
+                    </NativeMenu>
+                </NativeMenuItem.Menu>
+            </NativeMenuItem>
+            <NativeMenuItem Header="Tools">
+                <NativeMenuItem.Menu>
+                    <NativeMenu>
+                        <NativeMenuItem Gesture="{OnPlatform Default='Ctrl+,', macOS='⌘+,'}" Header="Settings" />
+                    </NativeMenu>
+                </NativeMenuItem.Menu>
+            </NativeMenuItem>
+            <NativeMenuItem Header="Window">
+                <NativeMenuItem.Menu>
+                    <NativeMenu>
+                        <NativeMenuItem
+                            Click="NewWindowMenuItem_Click"
+                            Gesture="{OnPlatform Ctrl+Shift+N,
+                                                 macOS=⌘+Shift+N}"
+                            Header="New Window" />
+                    </NativeMenu>
+                </NativeMenuItem.Menu>
+            </NativeMenuItem>
+            <NativeMenuItem Header="Help">
+                <NativeMenuItem.Menu>
+                    <NativeMenu>
+                        <NativeMenuItem Header="About..." />
+                    </NativeMenu>
+                </NativeMenuItem.Menu>
+            </NativeMenuItem>
+        </NativeMenu>
+    </NativeMenu.Menu>
+
+    <Window.Styles>
+        <!--
+            This style is based on the default Fluent theme
+            (https://github.com/AvaloniaUI/Avalonia/blob/master/src/Avalonia.Themes.Fluent/Controls/Menu.xaml),
+            but allows menu items to wrap in multiple rows.
+            You can remove this part if you prefer the default behavior (single row menu).
+        -->
+        <Style Selector="Menu">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Height" Value="NaN" />
+            <!--
+                Height=NaN is required because Avalonia fluent theme uses 32 as default menu height,
+                and this would cause the wrapped rows to be hidden when using WrapPanel as ItemsPanel.
+            -->
+            <Setter Property="ItemContainerTheme" Value="{StaticResource FluentTopLevelMenuItem}" />
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Border
+                        Padding="{TemplateBinding Padding}"
+                        HorizontalAlignment="Stretch"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="{TemplateBinding CornerRadius}">
+                        <ItemsPresenter
+                            Name="PART_ItemsPresenter"
+                            VerticalAlignment="Stretch"
+                            KeyboardNavigation.TabNavigation="Continue">
+                            <ItemsPresenter.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel />
+                                </ItemsPanelTemplate>
+                            </ItemsPresenter.ItemsPanel>
+                        </ItemsPresenter>
+                    </Border>
+                </ControlTemplate>
+            </Setter>
+        </Style>
+    </Window.Styles>
+
+    <Grid RowDefinitions="Auto,*,Auto">
+        <!--  Note: don't set a background for 'titleBar' and 'dragRegion', it would break mouse interaction on the Windows title bar  -->
+        <Grid
+            x:Name="titleBar"
+            Grid.Row="0"
+            HorizontalAlignment="Left"
+            ColumnDefinitions="Auto,*,Auto,Auto,Auto">
+
+            <!--  Remove or set Visibility="Collapsed" if you don't want to display an icon  -->
+            <Image
+                x:Name="icon"
+                Grid.Column="0"
+                Width="24"
+                Height="24"
+                Margin="5,0,0,0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                IsVisible="{OnPlatform Default=False,
+                                       Windows=True}"
+                Source="avares://AvaloniaApplication1/Assets/avalonia-logo.ico" />
+
+            <DockPanel Grid.Column="1" HorizontalAlignment="Left">
+                <!--
+                    NativeMenuBar is automatically replaced with a standard menu bar on Windows and most Linux distributions,
+                    so it should be placed where you want it to be displayed.
+                    In this case, DockPanel allows the menu to not necessarily extend across the entire title bar,
+                    so that mouse interaction on the title bar can work and custom buttons are left-aligned next to the menu.
+                -->
+                <NativeMenuBar VerticalAlignment="Center" DockPanel.Dock="Left" />
+            </DockPanel>
+            <Button
+                Grid.Column="2"
+                Width="30"
+                Height="30"
+                VerticalAlignment="Top"
+                Background="Transparent"
+                BorderThickness="0"
+                ToolTip.Tip="Save (Ctrl + S)">
+                <ic:SymbolIcon IsFilled="False" Symbol="Save" />
+            </Button>
+            <Button
+                Grid.Column="3"
+                Width="30"
+                Height="30"
+                VerticalAlignment="Top"
+                Background="Transparent"
+                BorderThickness="0"
+                ToolTip.Tip="Undo (Ctrl + Z)">
+                <ic:SymbolIcon IsFilled="False" Symbol="ArrowUndo" />
+            </Button>
+            <Grid
+                x:Name="dragRegion"
+                Grid.Column="4"
+                MinWidth="188"
+                IsVisible="{OnPlatform Default=False,
+                                       Windows=True}" />
+        </Grid>
+
+        <Border Grid.Row="1" Background="DarkGray">
+            <TextBlock
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Text="The content will be here." />
+        </Border>
+
+        <Grid
+            x:Name="statusBar"
+            Grid.Row="2"
+            ColumnDefinitions="Auto,*,Auto">
+            <TextBlock
+                Grid.Column="0"
+                Margin="2"
+                Text="Status bar" />
+        </Grid>
+    </Grid>
+</Window>

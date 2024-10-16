@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Window
+    x:Class="WinUiApp1.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:CommunityToolkit.WinUI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:WinUiApp1"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Loaded="rootGrid_Loaded">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid
+            Grid.Row="0"
+            Margin="0,4,0,0"
+            HorizontalAlignment="Left">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <!--  Remove or set Visibility="Collapsed" if you don't want to show an icon  -->
+            <Image
+                Grid.Column="0"
+                Width="24"
+                Height="24"
+                Margin="6,6,2,0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top"
+                Source="Assets/icon.png"
+                Stretch="Uniform" />
+
+            <controls:DockPanel Grid.Column="1" HorizontalAlignment="Stretch">
+                <MenuBar
+                    Grid.Column="0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    controls:DockPanel.Dock="Left">
+                    <MenuBar.Template>
+                        <ControlTemplate>
+                            <!--  The original template uses StackPanel: https://github.com/microsoft/microsoft-ui-xaml/blob/main/src/controls/dev/MenuBar/MenuBar.xaml  -->
+                            <!--  This part can be removed if you prefer menu items to not wrap in multiple rows.  -->
+                            <Grid
+                                x:Name="LayoutRoot"
+                                HorizontalAlignment="Left"
+                                Background="{TemplateBinding Background}">
+                                <ItemsControl
+                                    x:Name="ContentRoot"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Stretch"
+                                    IsTabStop="False"
+                                    TabNavigation="{TemplateBinding TabNavigation}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <controls:WrapPanel Orientation="Horizontal" />
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                </ItemsControl>
+                            </Grid>
+                        </ControlTemplate>
+                    </MenuBar.Template>
+                    <MenuBarItem Title="File">
+                        <MenuFlyoutItem Text="New">
+                            <MenuFlyoutItem.KeyboardAccelerators>
+                                <KeyboardAccelerator Key="N" Modifiers="Control" />
+                            </MenuFlyoutItem.KeyboardAccelerators>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem Text="Open...">
+                            <MenuFlyoutItem.KeyboardAccelerators>
+                                <KeyboardAccelerator Key="O" Modifiers="Control" />
+                            </MenuFlyoutItem.KeyboardAccelerators>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutSeparator />
+                        <MenuFlyoutItem Text="Save">
+                            <MenuFlyoutItem.KeyboardAccelerators>
+                                <KeyboardAccelerator Key="S" Modifiers="Control" />
+                            </MenuFlyoutItem.KeyboardAccelerators>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem Text="Save As...">
+                            <MenuFlyoutItem.KeyboardAccelerators>
+                                <KeyboardAccelerator Key="S" Modifiers="Control,Shift" />
+                            </MenuFlyoutItem.KeyboardAccelerators>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem Text="Print...">
+                            <MenuFlyoutItem.KeyboardAccelerators>
+                                <KeyboardAccelerator Key="P" Modifiers="Control" />
+                            </MenuFlyoutItem.KeyboardAccelerators>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutSeparator />
+                        <MenuFlyoutItem
+                            Click="ExitMenuItem_Click"
+                            KeyboardAcceleratorTextOverride="Alt+F4"
+                            Text="Exit" />
+                        <!--  Don't add KeyboardAccelerator for ALT+F4, it's already implemented in the window itself  -->
+                    </MenuBarItem>
+                    <MenuBarItem Title="Edit">
+                        <MenuFlyoutItem Text="Undo">
+                            <MenuFlyoutItem.KeyboardAccelerators>
+                                <KeyboardAccelerator Key="Z" Modifiers="Control" />
+                            </MenuFlyoutItem.KeyboardAccelerators>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem Text="Redo">
+                            <MenuFlyoutItem.KeyboardAccelerators>
+                                <KeyboardAccelerator Key="Y" Modifiers="Control" />
+                            </MenuFlyoutItem.KeyboardAccelerators>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutSeparator />
+                        <MenuFlyoutItem Text="Cut">
+                            <MenuFlyoutItem.KeyboardAccelerators>
+                                <KeyboardAccelerator Key="X" Modifiers="Control" />
+                            </MenuFlyoutItem.KeyboardAccelerators>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem Text="Copy">
+                            <MenuFlyoutItem.KeyboardAccelerators>
+                                <KeyboardAccelerator Key="C" Modifiers="Control" />
+                            </MenuFlyoutItem.KeyboardAccelerators>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem Text="Paste">
+                            <MenuFlyoutItem.KeyboardAccelerators>
+                                <KeyboardAccelerator Key="V" Modifiers="Control" />
+                            </MenuFlyoutItem.KeyboardAccelerators>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutSeparator />
+                        <MenuFlyoutItem Text="Find">
+                            <MenuFlyoutItem.KeyboardAccelerators>
+                                <KeyboardAccelerator Key="F" Modifiers="Control" />
+                            </MenuFlyoutItem.KeyboardAccelerators>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem Text="Select All">
+                            <MenuFlyoutItem.KeyboardAccelerators>
+                                <KeyboardAccelerator Key="A" Modifiers="Control" />
+                            </MenuFlyoutItem.KeyboardAccelerators>
+                        </MenuFlyoutItem>
+                    </MenuBarItem>
+                    <MenuBarItem Title="Insert" />
+                    <MenuBarItem Title="Format" />
+                    <MenuBarItem Title="View">
+                        <MenuFlyoutSubItem Text="Zoom">
+                            <MenuFlyoutItem Text="Zoom In" />
+                            <MenuFlyoutItem Text="Zoom Out" />
+                            <MenuFlyoutItem Text="100%" />
+                        </MenuFlyoutSubItem>
+                        <ToggleMenuFlyoutItem Text="Full screen" />
+                        <MenuFlyoutSeparator />
+                        <RadioMenuFlyoutItem
+                            Click="SystemThemeMenuItem_Click"
+                            GroupName="ThemeGroup"
+                            IsChecked="True"
+                            Text="System theme" />
+                        <RadioMenuFlyoutItem
+                            Click="LightThemeMenuItem_Click"
+                            GroupName="ThemeGroup"
+                            Text="Light theme" />
+                        <RadioMenuFlyoutItem
+                            Click="DarkThemeMenuItem_Click"
+                            GroupName="ThemeGroup"
+                            Text="Dark theme" />
+                        <MenuFlyoutSeparator />
+                        <ToggleMenuFlyoutItem
+                            Click="StatusBarMenuItem_Click"
+                            IsChecked="True"
+                            Text="Status bar" />
+                    </MenuBarItem>
+                    <MenuBarItem Title="Tools">
+                        <MenuFlyoutItem Text="Settings..." />
+                    </MenuBarItem>
+                    <MenuBarItem Title="Window">
+                        <MenuFlyoutItem Click="NewWindowMenuItem_Click" Text="New window">
+                            <MenuFlyoutItem.KeyboardAccelerators>
+                                <KeyboardAccelerator Key="N" Modifiers="Control,Shift" />
+                            </MenuFlyoutItem.KeyboardAccelerators>
+                        </MenuFlyoutItem>
+                    </MenuBarItem>
+                    <MenuBarItem Title="Help">
+                        <MenuFlyoutItem Text="About" />
+                    </MenuBarItem>
+                </MenuBar>
+            </controls:DockPanel>
+
+            <Button
+                Grid.Column="2"
+                Margin="0,3,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Background="Transparent"
+                BorderThickness="0"
+                ToolTipService.ToolTip="Save (Ctrl + S)">
+                <SymbolIcon Symbol="Save" />
+            </Button>
+            <Button
+                Grid.Column="3"
+                Margin="0,3,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Background="Transparent"
+                BorderThickness="0"
+                ToolTipService.ToolTip="Undo (Ctrl + Z)">
+                <SymbolIcon Symbol="Undo" />
+            </Button>
+
+            <Grid
+                x:Name="dragRegion"
+                Grid.Column="4"
+                MinWidth="188" />
+        </Grid>
+
+        <Border Grid.Row="1" Background="DarkGray">
+            <TextBlock
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Text="The window content will be here." />
+        </Border>
+
+        <Grid x:Name="statusBar" Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+                Grid.Column="0"
+                Margin="6"
+                Text="Status bar" />
+        </Grid>
+    </Grid>
+</Window>
