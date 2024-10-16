@@ -24,9 +24,9 @@ Windows 11 snap layouts are also supported when hovering on the Maximize button,
     
     - **MacOS**: the menu bar is hidden, as the native global menu is used. For this reason, I have disabled the title bar customization. On MacOS most applications stick to the system title bar. If you prefer to customize the title bar anyway, you can change the OnPlatform markup extensions to set ExtendClientAreaToDecorationsHint = true on MacOS too, but keep in mind that the system title bar is smaller and the blank area used for caption buttons should be on the left rather than on the right.
     
-    - **Linux**: The menu bar is displayed below the native title bar, because Avalonia doesn't support client decorations on Linux yet. It will probably be implemented in the future for Wayland GNOME that does not support server decorations, but for other desktop environments it would break a lot of native stuff.
+    - **Linux**: The menu bar is displayed below the native title bar, because Avalonia doesn't support client decorations on Linux yet. It will probably be implemented in the future for Wayland GNOME which does not support server decorations, but for other desktop environments it would break a lot of native stuff.
 
-###### Possible improvements
+##### Possible improvements
 
 - WPF: Add fluent light / dark theme via .NET 9
 
