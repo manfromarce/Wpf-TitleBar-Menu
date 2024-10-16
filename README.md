@@ -36,4 +36,9 @@ Windows 11 snap layouts are also supported when hovering on the Maximize button,
 
 #### Screenshot
 
+WPF:
 ![image](https://github.com/manfromarce/Wpf-TitleBar-Menu/assets/45036600/245562ea-d7de-4b31-97e2-3d5dfe52f89e)
+
+WinUI 3:
+![Immagine 2024-10-16 020339](https://github.com/user-attachments/assets/014b2e2d-8eab-40ec-aeba-bae39873acac)
+
