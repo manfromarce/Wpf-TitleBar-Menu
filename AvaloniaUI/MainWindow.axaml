@@ -207,7 +207,7 @@
                 Background="Transparent"
                 BorderThickness="0"
                 ToolTip.Tip="Save (Ctrl + S)">
-                <ic:SymbolIcon IsFilled="False" Symbol="Save" />
+                <ic:SymbolIcon IconVariant="Regular" Symbol="Save" />
             </Button>
             <Button
                 Grid.Column="3"
@@ -217,7 +217,7 @@
                 Background="Transparent"
                 BorderThickness="0"
                 ToolTip.Tip="Undo (Ctrl + Z)">
-                <ic:SymbolIcon IsFilled="False" Symbol="ArrowUndo" />
+                <ic:SymbolIcon IconVariant="Regular" Symbol="ArrowUndo" />
             </Button>
             <Grid
                 x:Name="dragRegion"
