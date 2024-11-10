@@ -42,3 +42,6 @@ WPF:
 WinUI 3:
 ![Immagine 2024-10-16 020339](https://github.com/user-attachments/assets/014b2e2d-8eab-40ec-aeba-bae39873acac)
 
+Avalonia:
+![2024-11-10 133309](https://github.com/user-attachments/assets/6c7a3f23-578d-4366-86ba-6a074877735b)
+
