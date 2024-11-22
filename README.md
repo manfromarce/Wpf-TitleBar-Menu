@@ -20,7 +20,7 @@ Windows 11 snap layouts are also supported when hovering on the Maximize button,
   
   - AvaloniaUI:
     
-    - **Windows**: title bar buttons which emulate the Windows style are provided by Avalonia itself when using ExtendClientAreaToDecorationsHint, so we don't need to manually implement them, but Windows 11 snap layout are not supported at the moment (see [AvaloniaUI #11409](https://github.com/AvaloniaUI/Avalonia/issues/11409)).
+    - **Windows**: title bar buttons which emulate the Windows style are provided by Avalonia itself when using ExtendClientAreaToDecorationsHint, so we don't need to manually implement them, but Windows 11 snap layout are not supported (will be solved in Avalonia 11.3).
     
     - **MacOS**: the menu bar is hidden, as the native global menu is used. For this reason, I have disabled the title bar customization. On MacOS most applications stick to the system title bar. If you prefer to customize the title bar anyway, you can change the OnPlatform markup extensions to set ExtendClientAreaToDecorationsHint = true on MacOS too, but keep in mind that the system title bar is smaller and the blank area used for caption buttons should be on the left rather than on the right.
     
@@ -32,7 +32,7 @@ Windows 11 snap layouts are also supported when hovering on the Maximize button,
 
 - WinUI 3: Enforce minimum window size; add title TextBlock
 
-- Avalonia: Implement native context menu for the Windows title bar and Win11 snap layouts; add title TextBlock; implement keyboard shortcuts (only displayed at the moment)
+- Avalonia: Implement native context menu for the Windows title bar; add title TextBlock; implement keyboard shortcuts (only displayed at the moment)
 
 #### Screenshot
 
