@@ -4,7 +4,7 @@ These demo apps show how to create a custom title bar in WPF, Avalonia and WinUI
 
 It is inspided by Visual Studio and provides a simple main menu which wraps its contents when the window is shrinked, a custom button, and the standard Minimize, Maximize/Restore and Close buttons.
 
-Windows 11 snap layouts are also supported when hovering on the Maximize button, except in the Avalonia project (see below).
+Windows 11 snap layouts are also supported when hovering on the Maximize button.
 
 #### How to use:
 
@@ -20,7 +20,7 @@ Windows 11 snap layouts are also supported when hovering on the Maximize button,
   
   - AvaloniaUI:
     
-    - **Windows**: title bar buttons which emulate the Windows style are provided by Avalonia itself when using ExtendClientAreaToDecorationsHint, so we don't need to manually implement them, but Windows 11 snap layout are not supported (will be solved in Avalonia 11.3).
+    - **Windows**: title bar buttons which emulate the Windows style are provided by Avalonia itself when using ExtendClientAreaToDecorationsHint, so we don't need to manually implement them.
     
     - **MacOS**: the menu bar is hidden, as the native global menu is used. For this reason, I have disabled the title bar customization. On MacOS most applications stick to the system title bar. If you prefer to customize the title bar anyway, you can change the OnPlatform markup extensions to set ExtendClientAreaToDecorationsHint = true on MacOS too, but keep in mind that the system title bar is smaller and the blank area used for caption buttons should be on the left rather than on the right.
     
